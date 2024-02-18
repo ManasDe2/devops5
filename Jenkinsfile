@@ -2,6 +2,12 @@ pipeline {
     agent any
     
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout source code from version control (e.g., Git)
+                checkout scm 
+            }
+        }
         stage('Echo File') {
             steps {
                 // Echo the content of a file
