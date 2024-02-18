@@ -8,15 +8,7 @@ pipeline {
                 checkout scm 
             }
         }
-        stage('Echo File') {
-            steps {
-                // Echo the content of a file
-                script {
-                    def fileContent = readFile './*.txt'
-                    echo "File content: ${fileContent}"
-                }
-            }
-        }
+        
     }
     
     post {
