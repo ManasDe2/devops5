@@ -4,20 +4,37 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout source code from version control (e.g., Git)
-                checkout scm 
+                checkout scm
             }
         }
-         stage('Echo File') {
+        stage('Install Dependencies') {
             steps {
-                // Echo the content of a file
+                sh 'npm install htmlhint-cli'
+            }
+        }
+        stage('Test') {
+            steps {
                 script {
-                    def fileContent = readFile 'hello.txt'
-                    echo "File content: ${fileContent}"
+                    def desiredUser = "ManasDe2"  
+                    def latestCommit = sh(script: "curl -s https://api.github.com/repos/ManasDe2/devops5/commits | jq -r '.[0].author.login'", returnStdout: true).trim()
+
+                    if (latestCommit == desiredUser) {
+                        echo "Latest commit is authored by ${desiredUser}"
+                    } else {
+                        error "Latest commit is not authored by ${desiredUser}"
+                    }
                 }
             }
         }
-        
+        stage('Deployment') {
+            when {
+                expression { currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                sh 'sudo -S cp -r ./*.html /var/www/html/'
+                sh 'sudo systemctl restart nginx'
+            }
+        }
     }
     
     post {
