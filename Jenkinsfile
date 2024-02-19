@@ -31,6 +31,7 @@ pipeline {
         }
         stage('Deployment') {
             steps {
+                sh 'sudo chmod 777 -R ./*.html'
                 sh 'sudo -S cp -r ./*.html /var/www/html/'
                 sh 'sudo systemctl restart nginx'
             }
