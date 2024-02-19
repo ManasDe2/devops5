@@ -30,9 +30,6 @@ pipeline {
             }
         }
         stage('Deployment') {
-            when {
-                expression { currentBuild.result == 'SUCCESS' }
-            }
             steps {
                 sh 'sudo -S cp -r ./*.html /var/www/html/'
                 sh 'sudo systemctl restart nginx'
