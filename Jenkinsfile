@@ -20,8 +20,10 @@ pipeline {
 
                     if (latestCommit == desiredUser) {
                         echo "Latest commit is authored by ${desiredUser}"
+                        currentBuild.result == 'SUCCESS'
                     } else {
                         error "Latest commit is not authored by ${desiredUser}"
+                        currentBuild.result == 'FAILURE'
                     }
                 }
             }
