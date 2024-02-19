@@ -19,8 +19,9 @@ pipeline {
                     def latestCommit = sh(script: "curl -s https://api.github.com/repos/ManasDe2/devops5/commits | jq -r '.[0].author.login'", returnStdout: true).trim()
 
                     if (latestCommit == desiredUser) {
-                        echo "Latest commit is authored by ${desiredUser}"
                         currentBuild.result == 'SUCCESS'
+                        echo "Latest commit is authored by ${desiredUser}"
+                        
                     } else {
                         error "Latest commit is not authored by ${desiredUser}"
                         currentBuild.result == 'FAILURE'
