@@ -32,7 +32,7 @@ pipeline {
         stage('Deployment') {
             steps {
                 sh 'sudo -S cp -r ./*.html /var/www/html/'
-                sh 'sudo systemctl restart nginx'
+                sh 'sudo -S systemctl restart nginx'
             }
         }
     }
